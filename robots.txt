@@ -61,4 +61,4 @@ Disallow: /
 User-agent: ZoominfoBot
 Disallow: /
 
-Sitemap: https://sheropen.github.io/sitemap.xml
+Sitemap: https://blog.sheropen.com/sitemap.xml
