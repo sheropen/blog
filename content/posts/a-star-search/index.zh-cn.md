@@ -52,7 +52,7 @@ $$0\leq h(x)\leq h^\*(x)$$
 
 构造 admissible heuristics 的要点在于考虑真实代价$h^*(x)$**至少**是多少。一个经常被用到的方法就是将问题简化，经简化后的**relaxed problem**的解往往是原问题的 admissible heuristics。  
 <image src="admissible-heuristics.jpeg">  
-考虑上述的迷宫问题，我们可以将问题简化为"**若 pac-man 可以穿越墙壁，那么到达终点的最短距离是多少？**"问题的解显然是从起点到终点的曼哈顿距离。不难证明，对于有墙壁的原问题来说，从某个节点到终点**至少**也得走这么多步。因此曼哈顿距离是原问题一个很好的 admissible heuristics。
+考虑上述的迷宫问题，我们可以将问题简化为"**若 pac-man 可以穿越墙壁，那么到达终点的最短距离是多少？**"。问题的解显然是从起点到终点的曼哈顿距离。不难证明，对于有墙壁的原问题来说，从某个节点到终点**至少**也得走这么多步。因此曼哈顿距离是原问题一个很好的 admissible heuristics。
 
 ### A\*搜索 optimality 证明
 
