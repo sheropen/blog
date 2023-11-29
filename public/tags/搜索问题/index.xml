@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>搜索问题 - 标签 - Sheropen</title>
+        <link>https://blog.sheropen.com/tags/%E6%90%9C%E7%B4%A2%E9%97%AE%E9%A2%98/</link>
+        <description>搜索问题 - 标签 - Sheropen</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sheropen@outlook.com (Yu Jun Hao)</managingEditor>
+            <webMaster>sheropen@outlook.com (Yu Jun Hao)</webMaster><lastBuildDate>Wed, 28 Sep 2022 00:00:00 &#43;0800</lastBuildDate><atom:link href="https://blog.sheropen.com/tags/%E6%90%9C%E7%B4%A2%E9%97%AE%E9%A2%98/" rel="self" type="application/rss+xml" /><item>
+    <title>Informed Search: A* 搜索</title>
+    <link>https://blog.sheropen.com/a-star-search/</link>
+    <pubDate>Wed, 28 Sep 2022 00:00:00 &#43;0800</pubDate>
+    <author>Yu Jun Hao</author>
+    <guid>https://blog.sheropen.com/a-star-search/</guid>
+    <description><![CDATA[A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性.]]></description>
+</item>
+</channel>
+</rss>
