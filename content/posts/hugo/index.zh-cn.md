@@ -1,8 +1,8 @@
 ---
 weight: 1
 title: "Mastering Hugo: A Comprehensive Guide to Managing Your Blog"
-date: 2022-09-28T00:00:00+08:00
-lastmod: 2022-09-28T00:00:00+08:00
+date: 2023-11-30T00:00:00+08:00
+lastmod: 2022-11-30T00:00:00+08:00
 draft: false
 author: "Yu Jun Hao"
 description: "Welcome to the world of Hugo, a powerful and fast static site generator that's perfect for bloggers and web developers alike."

@@ -4,21 +4,21 @@
         <link>https://blog.sheropen.com/posts/</link>
         <description>所有文章 | Sheropen</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sheropen@outlook.com (Yu Jun Hao)</managingEditor>
-            <webMaster>sheropen@outlook.com (Yu Jun Hao)</webMaster><lastBuildDate>Wed, 28 Sep 2022 00:00:00 &#43;0800</lastBuildDate><atom:link href="https://blog.sheropen.com/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>sheropen@outlook.com (Yu Jun Hao)</webMaster><lastBuildDate>Thu, 30 Nov 2023 00:00:00 &#43;0800</lastBuildDate><atom:link href="https://blog.sheropen.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Mastering Hugo: A Comprehensive Guide to Managing Your Blog</title>
+    <link>https://blog.sheropen.com/hugo/</link>
+    <pubDate>Thu, 30 Nov 2023 00:00:00 &#43;0800</pubDate>
+    <author>Yu Jun Hao</author>
+    <guid>https://blog.sheropen.com/hugo/</guid>
+    <description><![CDATA[Welcome to the world of Hugo, a powerful and fast static site generator that's perfect for bloggers and web developers alike.]]></description>
+</item>
+<item>
     <title>Informed Search: A* 搜索</title>
     <link>https://blog.sheropen.com/a-star-search/</link>
     <pubDate>Wed, 28 Sep 2022 00:00:00 &#43;0800</pubDate>
     <author>Yu Jun Hao</author>
     <guid>https://blog.sheropen.com/a-star-search/</guid>
     <description><![CDATA[A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性.]]></description>
-</item>
-<item>
-    <title>Mastering Hugo: A Comprehensive Guide to Managing Your Blog</title>
-    <link>https://blog.sheropen.com/hugo/</link>
-    <pubDate>Wed, 28 Sep 2022 00:00:00 &#43;0800</pubDate>
-    <author>Yu Jun Hao</author>
-    <guid>https://blog.sheropen.com/hugo/</guid>
-    <description><![CDATA[Welcome to the world of Hugo, a powerful and fast static site generator that's perfect for bloggers and web developers alike.]]></description>
 </item>
 <item>
     <title>主题文档 - 基本概念</title>
