@@ -1,28 +1,253 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Informed Search: A* 搜索 - Sheropen</title><meta name=Description content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."><meta property="og:title" content="Informed Search: A* 搜索"><meta property="og:description" content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."><meta property="og:type" content="article"><meta property="og:url" content="https://blog.sheropen.com/a-star-search/"><meta property="og:image" content="https://blog.sheropen.com/a-star-search/featured-image.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-09-28T00:00:00+08:00"><meta property="article:modified_time" content="2022-10-02T21:56:57+08:00"><meta property="og:site_name" content="Sheropen"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.sheropen.com/a-star-search/featured-image.jpg"><meta name=twitter:title content="Informed Search: A* 搜索"><meta name=twitter:description content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."><meta name=application-name content="Sheropen"><meta name=apple-mobile-web-app-title content="Sheropen"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://blog.sheropen.com/a-star-search/><link rel=prev href=https://blog.sheropen.com/theme-documentation-basics/><link rel=next href=https://blog.sheropen.com/hugo/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=/lib/fontawesome-free/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload href=/lib/animate/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Informed Search: A* 搜索","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.sheropen.com\/a-star-search\/"},"image":[{"@type":"ImageObject","url":"https:\/\/blog.sheropen.com\/a-star-search\/featured-image.jpg","width":5704,"height":2695}],"genre":"posts","keywords":"搜索问题, 算法","wordcount":2157,"url":"https:\/\/blog.sheropen.com\/a-star-search\/","datePublished":"2022-09-28T00:00:00+08:00","dateModified":"2022-10-02T21:56:57+08:00","publisher":{"@type":"Organization","name":"Yu Jun Hao","logo":"https:\/\/blog.sheropen.com\/favicon.ico"},"author":{"@type":"Person","name":"Yu Jun Hao"},"description":"A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=Sheropen>Sheropen</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
-<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
-<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=Sheropen>Sheropen</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
-<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
-<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class="toc-content always-active" id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Informed Search: A* 搜索</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Yu Jun Hao</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/documentation/><i class="far fa-folder fa-fw" aria-hidden=true></i>文档</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-09-28>2022-09-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2157 字&nbsp;
-<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/a-star-search/featured-image.jpg data-srcset="/a-star-search/featured-image.jpg, /a-star-search/featured-image.jpg 1.5x, /a-star-search/featured-image.jpg 2x" data-sizes=auto alt=/a-star-search/featured-image.jpg title="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."></div><div class="details toc" id=toc-static data-kept=true><div class="details-summary toc-title"><span>目录</span>
-<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><ul><li><a href=#简述>简述</a></li><li><a href=#uniform-cost-search--greedy-search>Uniform-cost Search & Greedy Search</a></li><li><a href=#a-search>A* Search</a></li><li><a href=#admissible-heuristics>Admissible Heuristics</a></li><li><a href=#a搜索-optimality-证明>A*搜索 optimality 证明</a></li><li><a href=#graph-search>Graph Search</a></li><li><a href=#credit>Credit</a></li></ul></li></ul></nav></div></div><div class=content id=content><h3 id=简述>简述</h3><p>搜索问题可以转换为对搜索树的求解，求解方法基本如下：
-<image src=tree-search.png>可以看到，若根据不同的<strong>strategy</strong>从<strong>candidates</strong>中选择节点，就构成了不同的搜索算法。举例来说，深度优先算法（DFS）与广度优先搜索（BFS）就分别采用了<strong>LIFO</strong>和<strong>FIFO</strong>原则作为选择策略。</p><h3 id=uniform-cost-search--greedy-search>Uniform-cost Search & Greedy Search</h3><p>乍看之下，一致代价搜索（UCS）和贪心搜索都是选择代价最小的节点，但是二者对于代价的估值方向截然不同。UCS 总是选择从根节点开始到当前节点$x$，路径总代价$g(x)$最小的节点；而贪心搜索是通过启发式函数（heuristic function）对节点到目标节点的代价$h(x)$进行估值，并选择估值最小的节点。</p><p>相较而言，UCS 算法中只考虑 backward cost，因而虽然能保证全局最优性，但是算法性能不佳； 而贪心算法只考虑估算 forward cost，因此虽然算法性能高效，却十分依赖于$h(x)$的构造精度，并且往往只能保证局部最优性。</p><h3 id=a-search>A* Search</h3><p>A*搜索综合了 UCS 以及贪心搜索的优点，既保证了算法的全局最优性，又能有效降低算法的复杂度。A*搜索的代价函数为$f(x)=g(x)+h(x)$。因此，A*搜索同时兼顾了 backward cost 与 forward cost，对搜索问题的刻画更为准确。</p><p>然而，A*搜索需要在一定条件下才能确保全局最优性。若$h^*(x)$为节点$x$到目标节点的真实代价，则 A*搜索要求$h(x)$为<strong>admissible heuristics</strong>，即：<br>$$0\leq h(x)\leq h^*(x)$$</p><p>换句话说，$h(x)$必须是乐观的，这样才能避免最优路径上的节点被$h(x)$拖累。试想想，若最优路径上某个节点的$h(x^*)=\infty$，那么该节点一定会留到最后才被选择。</p><p>算法的取舍点主要在于$h(x)$。当$h(x)$越接近$h^*(x)$，即$h(x)$描绘得越准确，那么算法就能越快找到最优路径。反之，$h(x)$提供的信息不足，则会造成算法对不必要的 bad path 进行搜索。当$h(x)=0$时，不能提供任何关于 forward cost 的信息，则 A*搜索退化为 UCS。<br><image src=comparison.png caption=迷宫问题的搜索过程，红色越亮代表节点越早被选择></p><h3 id=admissible-heuristics>Admissible Heuristics</h3><p>构造 admissible heuristics 的要点在于考虑真实代价$h^*(x)$<strong>至少</strong>是多少。一个经常被用到的方法就是将问题简化，经简化后的<strong>relaxed problem</strong>的解往往是原问题的 admissible heuristics。<br><image src=admissible-heuristics.jpeg><br>考虑上述的迷宫问题，我们可以将问题简化为"<strong>若 pac-man 可以穿越墙壁，那么到达终点的最短距离是多少？</strong>"。问题的解显然是从起点到终点的曼哈顿距离。不难证明，对于有墙壁的原问题来说，从某个节点到终点<strong>至少</strong>也得走这么多步。因此曼哈顿距离是原问题一个很好的 admissible heuristics。</p><h3 id=a搜索-optimality-证明>A*搜索 optimality 证明</h3><image src=a-star-optimality.jpeg>欲证全局最优节点$A$必定比任意局部最优节点$B$先被选择。<p>考虑局部最优节点$B$在待选择队列fringe里，而$A$不在（若$A$也在，则由$f(A)\le f(B)$得证），则必定有$A$的先驱节点$n$存在于fringe内。</p><ol><li>$f(n) = g(n) + h(n)\leq f(A) = g(n) + h^*(n)$</li><li>$f(A) \leq f(B)$ （由$A$的全局最优性与$B$的局部最优性）</li></ol><p>$\therefore f(n) \leq f(B)$ （由 ① 与 ②），则$A$的所有先驱节点$n$会比节点$B$先被选择，直到$A$也在 fringe 内。由$f(A)\leq f(B)$得证。</p><h3 id=graph-search>Graph Search</h3><p>在 UCS 中，我们可以<strong>忽略所有曾经访问过的节点</strong>以提高算法的效率却仍保证全局最优性，这是因为如果一个节点被访问过，那么该路径的代价$g(x)$一定不比当前路径的代价高。然而，在 A*搜索中，我们若想这么做，就得加强对$h(x)$的约束。此时，A*搜索要求相邻节点$s,s&rsquo;$的 heuristics 满足<strong>consistency</strong>，即：
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Informed Search: A* 搜索 - Sheropen</title><meta name="Description" content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."><meta property="og:title" content="Informed Search: A* 搜索" />
+<meta property="og:description" content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.sheropen.com/a-star-search/" /><meta property="og:image" content="https://blog.sheropen.com/a-star-search/featured-image.jpg"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-28T00:00:00+08:00" />
+<meta property="article:modified_time" content="2022-10-02T21:56:57+08:00" /><meta property="og:site_name" content="Sheropen" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.sheropen.com/a-star-search/featured-image.jpg"/>
+<meta name="twitter:title" content="Informed Search: A* 搜索"/>
+<meta name="twitter:description" content="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."/>
+<meta name="application-name" content="Sheropen">
+<meta name="apple-mobile-web-app-title" content="Sheropen"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://blog.sheropen.com/a-star-search/" /><link rel="prev" href="https://blog.sheropen.com/theme-documentation-basics/" /><link rel="next" href="https://blog.sheropen.com/hugo/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Informed Search: A* 搜索",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/blog.sheropen.com\/a-star-search\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/blog.sheropen.com\/a-star-search\/featured-image.jpg",
+                            "width":  5704 ,
+                            "height":  2695 
+                        }],"genre": "posts","keywords": "搜索问题, 算法","wordcount":  2157 ,
+        "url": "https:\/\/blog.sheropen.com\/a-star-search\/","datePublished": "2022-09-28T00:00:00+08:00","dateModified": "2022-10-02T21:56:57+08:00","publisher": {
+            "@type": "Organization",
+            "name": "Yu Jun Hao","logo": "https:\/\/blog.sheropen.com\/favicon.ico"},"author": {
+                "@type": "Person",
+                "name": "Yu Jun Hao"
+            },"description": "A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性."
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sheropen">Sheropen</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sheropen">Sheropen</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content always-active" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Informed Search: A* 搜索</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Yu Jun Hao</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/documentation/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>文档</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-09-28">2022-09-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;约 2157 字&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/a-star-search/featured-image.jpg"
+        data-srcset="/a-star-search/featured-image.jpg, /a-star-search/featured-image.jpg 1.5x, /a-star-search/featured-image.jpg 2x"
+        data-sizes="auto"
+        alt="/a-star-search/featured-image.jpg"
+        title="A*搜索算法作为informed search的一种，能有效的对搜索树进行求解，同时确保解的全局最优性." /></div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#简述">简述</a></li>
+        <li><a href="#uniform-cost-search--greedy-search">Uniform-cost Search &amp; Greedy Search</a></li>
+        <li><a href="#a-search">A* Search</a></li>
+        <li><a href="#admissible-heuristics">Admissible Heuristics</a></li>
+        <li><a href="#a搜索-optimality-证明">A*搜索 optimality 证明</a></li>
+        <li><a href="#graph-search">Graph Search</a></li>
+        <li><a href="#credit">Credit</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h3 id="简述">简述</h3>
+<p>搜索问题可以转换为对搜索树的求解，求解方法基本如下：
+<image src="tree-search.png">
+可以看到，若根据不同的<strong>strategy</strong>从<strong>candidates</strong>中选择节点，就构成了不同的搜索算法。举例来说，深度优先算法（DFS）与广度优先搜索（BFS）就分别采用了<strong>LIFO</strong>和<strong>FIFO</strong>原则作为选择策略。</p>
+<h3 id="uniform-cost-search--greedy-search">Uniform-cost Search &amp; Greedy Search</h3>
+<p>乍看之下，一致代价搜索（UCS）和贪心搜索都是选择代价最小的节点，但是二者对于代价的估值方向截然不同。UCS 总是选择从根节点开始到当前节点$x$，路径总代价$g(x)$最小的节点；而贪心搜索是通过启发式函数（heuristic function）对节点到目标节点的代价$h(x)$进行估值，并选择估值最小的节点。</p>
+<p>相较而言，UCS 算法中只考虑 backward cost，因而虽然能保证全局最优性，但是算法性能不佳； 而贪心算法只考虑估算 forward cost，因此虽然算法性能高效，却十分依赖于$h(x)$的构造精度，并且往往只能保证局部最优性。</p>
+<h3 id="a-search">A* Search</h3>
+<p>A*搜索综合了 UCS 以及贪心搜索的优点，既保证了算法的全局最优性，又能有效降低算法的复杂度。A*搜索的代价函数为$f(x)=g(x)+h(x)$。因此，A*搜索同时兼顾了 backward cost 与 forward cost，对搜索问题的刻画更为准确。</p>
+<p>然而，A*搜索需要在一定条件下才能确保全局最优性。若$h^*(x)$为节点$x$到目标节点的真实代价，则 A*搜索要求$h(x)$为<strong>admissible heuristics</strong>，即：<br>
+$$0\leq h(x)\leq h^*(x)$$</p>
+<p>换句话说，$h(x)$必须是乐观的，这样才能避免最优路径上的节点被$h(x)$拖累。试想想，若最优路径上某个节点的$h(x^*)=\infty$，那么该节点一定会留到最后才被选择。</p>
+<p>算法的取舍点主要在于$h(x)$。当$h(x)$越接近$h^*(x)$，即$h(x)$描绘得越准确，那么算法就能越快找到最优路径。反之，$h(x)$提供的信息不足，则会造成算法对不必要的 bad path 进行搜索。当$h(x)=0$时，不能提供任何关于 forward cost 的信息，则 A*搜索退化为 UCS。<br>
+<image src="comparison.png" caption="迷宫问题的搜索过程，红色越亮代表节点越早被选择"></p>
+<h3 id="admissible-heuristics">Admissible Heuristics</h3>
+<p>构造 admissible heuristics 的要点在于考虑真实代价$h^*(x)$<strong>至少</strong>是多少。一个经常被用到的方法就是将问题简化，经简化后的<strong>relaxed problem</strong>的解往往是原问题的 admissible heuristics。<br>
+<image src="admissible-heuristics.jpeg"><br>
+考虑上述的迷宫问题，我们可以将问题简化为&quot;<strong>若 pac-man 可以穿越墙壁，那么到达终点的最短距离是多少？</strong>&quot;。问题的解显然是从起点到终点的曼哈顿距离。不难证明，对于有墙壁的原问题来说，从某个节点到终点<strong>至少</strong>也得走这么多步。因此曼哈顿距离是原问题一个很好的 admissible heuristics。</p>
+<h3 id="a搜索-optimality-证明">A*搜索 optimality 证明</h3>
+<image src="a-star-optimality.jpeg">
+欲证全局最优节点$A$必定比任意局部最优节点$B$先被选择。  
+<p>考虑局部最优节点$B$在待选择队列fringe里，而$A$不在（若$A$也在，则由$f(A)\le f(B)$得证），则必定有$A$的先驱节点$n$存在于fringe内。</p>
+<ol>
+<li>$f(n) = g(n) + h(n)\leq f(A) = g(n) + h^*(n)$</li>
+<li>$f(A) \leq f(B)$ （由$A$的全局最优性与$B$的局部最优性）</li>
+</ol>
+<p>$\therefore f(n) \leq f(B)$ （由 ① 与 ②），则$A$的所有先驱节点$n$会比节点$B$先被选择，直到$A$也在 fringe 内。由$f(A)\leq f(B)$得证。</p>
+<h3 id="graph-search">Graph Search</h3>
+<p>在 UCS 中，我们可以<strong>忽略所有曾经访问过的节点</strong>以提高算法的效率却仍保证全局最优性，这是因为如果一个节点被访问过，那么该路径的代价$g(x)$一定不比当前路径的代价高。然而，在 A*搜索中，我们若想这么做，就得加强对$h(x)$的约束。此时，A*搜索要求相邻节点$s,s&rsquo;$的 heuristics 满足<strong>consistency</strong>，即：
 $$h(s)\leq cost(s\to s&rsquo;)+h(s&rsquo;)$$
-直观上来看，<strong>consistency</strong>保证从节点$s$出发到终点的代价估值，绝对不会超过先从节点$s$到$s&rsquo;$后，再从$s&rsquo;$到终点的代价估值（最理想的状态下，从$s$到终点的最优路径确实途径$s&rsquo;$，则此时$h(s)=cost(s\to s&rsquo;)+h(s&rsquo;)$）。一个<a href=https://www.zhihu.com/question/23052955/answer/1648645823 target=_blank rel="noopener noreffer">比喻</a>是计程车司机对从上海到北京的路费估价，绝对不会比从上海到广州再到北京的估价高。</p><p>数学层面上，<strong>consistency</strong>保证了对于任意路径$(s_0,s_1,&mldr;,s_k)$，$f(s_i)\leq f(s_{i+1})$始终成立。证明如下：</p><p>$$
+直观上来看，<strong>consistency</strong>保证从节点$s$出发到终点的代价估值，绝对不会超过先从节点$s$到$s&rsquo;$后，再从$s&rsquo;$到终点的代价估值（最理想的状态下，从$s$到终点的最优路径确实途径$s&rsquo;$，则此时$h(s)=cost(s\to s&rsquo;)+h(s&rsquo;)$）。一个<a href="https://www.zhihu.com/question/23052955/answer/1648645823" target="_blank" rel="noopener noreffer ">比喻</a>是计程车司机对从上海到北京的路费估价，绝对不会比从上海到广州再到北京的估价高。</p>
+<p>数学层面上，<strong>consistency</strong>保证了对于任意路径$(s_0,s_1,&hellip;,s_k)$，$f(s_i)\leq f(s_{i+1})$始终成立。证明如下：</p>
+<p>$$
 f(s_i) = g(s_i) + h(s_i) \leq g(s_i) + cost(s_i\to s_{i+1}) + h_{i+1} = f(s_{i+1})
-$$</p><p>在 A*搜索中，若想忽略曾经访问过的节点，我们最担心的一点就是某个处于最优路径的节点$n$，曾经作为节点$n&rsquo;$被某些更差的路线访问过。利用反证法可证明这种情况不可能出现：
-<image src=graph-search-optimality.jpeg><br>假设上述情况成立，则在$n&rsquo;$被选择前，必定存在某个$n$的先驱节点$p$也在 fringe 内。此时，由<strong>consistency</strong>知$f(p)\lt f(n)$。同时，由$n&rsquo;$非全局最优知$f(n)\lt f(n&rsquo;)$ 。则有：
-$$f(p)\lt f(n&rsquo;)$$<br>故$n$的所有先驱节点$p$都会比$n&rsquo;$先被选择，直到节点$n$也在 fringe 内。此时应先选择节点$n$，与前提矛盾，证明成立。</p><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw" aria-hidden=true></i>补充知识<i class="details-icon fas fa-angle-right fa-fw" aria-hidden=true></i></div><div class=details-content><div class=admonition-content><p>我们可以由<a href=https://en.wikipedia.org/wiki/Consistent_heuristic target=_blank rel="noopener noreffer">consistency 推出 admissible</a>，反之不然。
-考虑任一节点$N_i$，若$N_0$为终点，且$(N_i,N_{i-1},&mldr;N_0)$为从$N_i$到终点的最优路径，则：</p><p>$$
+$$</p>
+<p>在 A*搜索中，若想忽略曾经访问过的节点，我们最担心的一点就是某个处于最优路径的节点$n$，曾经作为节点$n&rsquo;$被某些更差的路线访问过。利用反证法可证明这种情况不可能出现：
+<image src="graph-search-optimality.jpeg"><br>
+假设上述情况成立，则在$n&rsquo;$被选择前，必定存在某个$n$的先驱节点$p$也在 fringe 内。此时，由<strong>consistency</strong>知$f(p)\lt f(n)$。同时，由$n&rsquo;$非全局最优知$f(n)\lt f(n&rsquo;)$ 。则有：
+$$f(p)\lt f(n&rsquo;)$$<br>
+故$n$的所有先驱节点$p$都会比$n&rsquo;$先被选择，直到节点$n$也在 fringe 内。此时应先选择节点$n$，与前提矛盾，证明成立。</p>
+<div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw" aria-hidden="true"></i>补充知识<i class="details-icon fas fa-angle-right fa-fw" aria-hidden="true"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>我们可以由<a href="https://en.wikipedia.org/wiki/Consistent_heuristic" target="_blank" rel="noopener noreffer ">consistency 推出 admissible</a>，反之不然。
+考虑任一节点$N_i$，若$N_0$为终点，且$(N_i,N_{i-1},&hellip;N_0)$为从$N_i$到终点的最优路径，则：</p>
+<p>$$
 h(N_i) \\
 \leq c(N_i\to N_{i-1})+ h(N_{i-1}) \\
-\leq&mldr;\\
-\leq c(N_i\to N_{i-1}) + c(N_{i-1}\to N_{i-2}) + &mldr; + c(N_1\to N_0) + h(N_0) \\
+\leq&hellip;\\
+\leq c(N_i\to N_{i-1}) + c(N_{i-1}\to N_{i-2}) + &hellip; + c(N_1\to N_0) + h(N_0) \\
 =h^*(N_i)
-$$</p></div></div></div><h3 id=credit>Credit</h3><ol><li><p><a href="https://www.youtube.com/watch?v=Mlwrx7hbKPs&ab_channel=WebcastDepartmental" target=_blank rel="noopener noreffer">Abbeel, P. & Klein, D. (2018, September 6). Lecture 3: A* Search and Heuristics. Youtube.</a><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube-nocookie.com/embed/Mlwrx7hbKPs style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></p></li><li><p><a href="https://www.youtube.com/watch?v=AVKPExS4TBY&ab_channel=CS188" target=_blank rel="noopener noreffer">Foote, D. (2016, June 23). CS 188: A* Graph Search Optimality. Youtube.</a><div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden><iframe src=https://www.youtube-nocookie.com/embed/AVKPExS4TBY style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe></div></p></li></ol></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-10-02</span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/a-star-search/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span><a href=javascript:void(0); title="分享到 Twitter" data-sharer=twitter data-url=https://blog.sheropen.com/a-star-search/ data-title="Informed Search: A* 搜索" data-via=nerophes data-hashtags=搜索问题,算法><i class="fab fa-twitter fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Facebook" data-sharer=facebook data-url=https://blog.sheropen.com/a-star-search/ data-hashtag=搜索问题><i class="fab fa-facebook-square fa-fw" aria-hidden=true></i></a><a href=javascript:void(0); title="分享到 Hacker News" data-sharer=hackernews data-url=https://blog.sheropen.com/a-star-search/ data-title="Informed Search: A* 搜索"><i class="fab fa-hacker-news fa-fw" aria-hidden=true></i></a></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/%E6%90%9C%E7%B4%A2%E9%97%AE%E9%A2%98/>搜索问题</a>,&nbsp;<a href=/tags/%E7%AE%97%E6%B3%95/>算法</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/theme-documentation-basics/ class=prev rel=prev title="主题文档 - 基本概念"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>主题文档 - 基本概念</a>
-<a href=/hugo/ class=next rel=next title="Mastering Hugo: A Comprehensive Guide to Managing Your Blog">Mastering Hugo: A Comprehensive Guide to Managing Your Blog<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2022 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>Yu Jun Hao</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
-</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/lightgallery/css/lightgallery-bundle.min.css><link rel=stylesheet href=/lib/katex/katex.min.css><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lunr/lunr.stemmer.support.min.js></script><script type=text/javascript src=/lib/lunr/lunr.zh.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/plugins/zoom/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/sharer/sharer.min.js></script><script type=text/javascript src=/lib/katex/katex.min.js></script><script type=text/javascript src=/lib/katex/contrib/auto-render.min.js></script><script type=text/javascript src=/lib/katex/contrib/copy-tex.min.js></script><script type=text/javascript src=/lib/katex/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{},lightgallery:!0,math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{highlightTag:"em",lunrIndexURL:"/index.json",lunrLanguageCode:"zh",lunrSegmentitURL:"/lib/lunr/lunr.segmentit.js",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"lunr"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
+$$</p>
+</div>
+        </div>
+    </div>
+<h3 id="credit">Credit</h3>
+<ol>
+<li>
+<p><a href="https://www.youtube.com/watch?v=Mlwrx7hbKPs&amp;ab_channel=WebcastDepartmental" target="_blank" rel="noopener noreffer ">Abbeel, P. &amp; Klein, D. (2018, September 6). Lecture 3: A* Search and Heuristics. Youtube.</a>
+
+   <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+     <iframe src="https://www.youtube-nocookie.com/embed/Mlwrx7hbKPs" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+   </div>
+</p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=AVKPExS4TBY&amp;ab_channel=CS188" target="_blank" rel="noopener noreffer ">Foote, D. (2016, June 23). CS 188: A* Graph Search Optimality. Youtube.</a>
+
+   <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+     <iframe src="https://www.youtube-nocookie.com/embed/AVKPExS4TBY" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+   </div>
+</p>
+</li>
+</ol></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2022-10-02</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/a-star-search/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://blog.sheropen.com/a-star-search/" data-title="Informed Search: A* 搜索" data-via="nerophes" data-hashtags="搜索问题,算法"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://blog.sheropen.com/a-star-search/" data-hashtag="搜索问题"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://blog.sheropen.com/a-star-search/" data-title="Informed Search: A* 搜索"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/%E6%90%9C%E7%B4%A2%E9%97%AE%E9%A2%98/">搜索问题</a>,&nbsp;<a href="/tags/%E7%AE%97%E6%B3%95/">算法</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/theme-documentation-basics/" class="prev" rel="prev" title="主题文档 - 基本概念"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>主题文档 - 基本概念</a>
+            <a href="/hugo/" class="next" rel="next" title="Mastering Hugo: A Comprehensive Guide to Managing Your Blog">Mastering Hugo: A Comprehensive Guide to Managing Your Blog<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Yu Jun Hao</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/katex/katex.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.zh.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js"></script><script type="text/javascript" src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js"></script><script type="text/javascript" src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
