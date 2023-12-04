@@ -11,7 +11,7 @@ resources:
   - name: "featured-image"
     src: "featured-image.jpg"
 
-tags: ["tutorial"]
+tags: ["tutorial", "ai-generated"]
 categories: ["documentation"]
 
 lightgallery: true
