@@ -12,7 +12,7 @@ resources:
     src: "featured-image.jpg"
 
 tags: ["tutorial", "ai-generated"]
-categories: ["documentation"]
+categories: ["article"]
 
 lightgallery: true
 
