@@ -27,22 +27,23 @@ BM25 is based on the probabilistic information retrieval model. It calculates th
 
 The core of BM25 is its scoring function, which assigns a relevance score to a document based on a query. The formula is as follows:
 
-\[
+
+$$
 \text{Score}(D, Q) = \sum\_{i=1}^{n} IDF(q_i) \times \frac{f(q_i, D) \times (k_1 + 1)}{f(q_i, D) + k_1 \times (1 - b + b \times \frac{|D|}{\text{avgdl}})}
-\]
+$$
 
 Where:
 
-- \( \text{Score}(D, Q) \) is the relevance score of document \( D \) for query \( Q \).
-- \( IDF(q_i) \) is the Inverse Document Frequency of term \( q_i \).
-- \( f(q_i, D) \) is the frequency of term \( q_i \) in document \( D \).
-- \( |D| \) is the length of the document.
-- \( \text{avgdl} \) is the average document length in the corpus.
-- \( k_1 \) and \( b \) are free parameters, usually chosen empirically.
+- $\text{Score}(D, Q)$ is the relevance score of document $D$ for query $Q$.
+- $IDF(q_i)$ is the Inverse Document Frequency of term $q_i$.
+- $f(q_i, D)$ is the frequency of term $q_i$in document $D$.
+- $|D|$ is the length of the document.
+- $\text{avgdl}$ is the average document length in the corpus.
+- $k_1$ and $b$ are free parameters, usually chosen empirically.
 
 ### B. Parameters Tuning
 
-The parameters \( k_1 \) and \( b \) play a significant role in BM25's performance. \( k_1 \) controls term frequency scaling, and \( b \) manages document length normalization. Fine-tuning these parameters is crucial for optimizing search results.
+The parameters $k_1$ and $b$ play a significant role in BM25's performance. $k_1$ controls term frequency scaling, and $b$ manages document length normalization. Fine-tuning these parameters is crucial for optimizing search results.
 
 ---
 
